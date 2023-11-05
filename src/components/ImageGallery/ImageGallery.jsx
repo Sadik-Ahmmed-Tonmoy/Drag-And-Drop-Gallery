@@ -96,15 +96,16 @@ const ImageGallery = () => {
   };
   //   handle drag drop item end
 
+
+    //   handle delete start
     const handleDelete = () => {
-      const updatedImages = [...droppedImages];
-      clickedIndexes.forEach((i) => {
-        if (i >= 0 && i < updatedImages.length) {
-          updatedImages.splice(i, 1); // Remove one element at the specified index
-        }
-      });
+      const updatedImages = droppedImages.filter((image, index) => !clickedIndexes.includes(index));
       setDroppedImages(updatedImages);
     };
+    
+    //   handle delete end
+
+    // enable onclick for drag drop
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
