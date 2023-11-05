@@ -1,6 +1,6 @@
 import React from "react";
 import "./ImageGallery.scss";
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter, PointerSensor, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
@@ -9,16 +9,16 @@ import {
 import { useState } from "react";
 import { SortableItem } from "../SortableItem/SortableItem";
 
+ 
+
 const ImageGallery = () => {
-  const [languages, setLanguages] = useState([
-    "JavaScript",
-    "Python",
-    "TypeScript",
-  ]);
+  
 
   const [droppedImages, setDroppedImages] = useState([]);
+  let clickedIndexes =[]
+  console.log(clickedIndexes);
 
-  console.log(droppedImages);
+ 
 
   //   handle add image start
   const handleAddImage = () => {
@@ -96,15 +96,22 @@ const ImageGallery = () => {
   };
   //   handle drag drop item end
 
-  //   const handleDelete = () => {
-  //     const updatedImages = [...droppedImages];
-  //     clickedIndexes.forEach((i) => {
-  //       if (i >= 0 && i < updatedImages.length) {
-  //         updatedImages.splice(i, 1); // Remove one element at the specified index
-  //       }
-  //     });
-  //     setDroppedImages(updatedImages);
-  //   };
+    const handleDelete = () => {
+      const updatedImages = [...droppedImages];
+      clickedIndexes.forEach((i) => {
+        if (i >= 0 && i < updatedImages.length) {
+          updatedImages.splice(i, 1); // Remove one element at the specified index
+        }
+      });
+      setDroppedImages(updatedImages);
+    };
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  )
   return (
     <div className="container mx-auto rounded-lg shadow-md border m-2">
       <div className="flex items-center justify-between border-b-2 py-5 px-10">
@@ -112,11 +119,12 @@ const ImageGallery = () => {
           <h1 className="text-2xl font-bold"> Files Selected</h1>
         </div>
         <div>
-          {/* <button className="text-red-500 font-semibold" onClick={handleDelete}>Delete Files</button> */}
+          <button className="text-red-500 font-semibold" onClick={handleDelete}>Delete Files</button>
         </div>
       </div>
       <div className="p-10">
         <DndContext
+        sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
         >
@@ -128,7 +136,7 @@ const ImageGallery = () => {
               <div className="gallery grid grid-cols-4 gap-1">
                 {droppedImages.map((item, index) => (
                   <div className="box" key={index}>
-                    <SortableItem id={item} item={item} />
+                    <SortableItem id={item} item={item} index={index} clickedIndexes={clickedIndexes}/>
                   </div>
                 ))}
                 {/* add image box */}
@@ -151,16 +159,16 @@ const ImageGallery = () => {
   );
 
   function handleDragEnd(event) {
-    console.log("Drag end called");
+    // console.log("Drag end called");
     const { active, over } = event;
-    console.log("ACTIVE: " + active.id);
-    console.log("OVER :" + over.id);
+    // console.log("ACTIVE: " + active.id);
+    // console.log("OVER :" + over.id);
 
     if (active.id !== over.id) {
       setDroppedImages((items) => {
         const activeIndex = items.indexOf(active.id);
         const overIndex = items.indexOf(over.id);
-        console.log(arrayMove(items, activeIndex, overIndex));
+        // console.log(arrayMove(items, activeIndex, overIndex));
         return arrayMove(items, activeIndex, overIndex);
       });
     }

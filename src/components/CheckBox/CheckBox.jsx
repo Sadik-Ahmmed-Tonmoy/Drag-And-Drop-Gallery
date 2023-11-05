@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const CheckBox = ({ index, clickedIndexes }) => {
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleCheckBoxClick = () => {
+  const handleCheckBoxClick = (index) => {
     setIsChecked(!isChecked);
     if (isChecked === true) {
       if (clickedIndexes.includes(index)) {
@@ -15,7 +15,7 @@ const CheckBox = ({ index, clickedIndexes }) => {
       }
     }
 
-    // console.log("Clicked Indexes:", clickedIndexes);
+    console.log("Clicked Indexes:", clickedIndexes);
   };
 
   return (
@@ -25,7 +25,7 @@ const CheckBox = ({ index, clickedIndexes }) => {
       } absolute top-0 left-0 w-full h-full `}
     >
       <div
-        onClick={handleCheckBoxClick}
+        onClick={()=>handleCheckBoxClick(index)}
         className="relative flex items-center m-3 hover:cursor-pointer"
       >
         <input

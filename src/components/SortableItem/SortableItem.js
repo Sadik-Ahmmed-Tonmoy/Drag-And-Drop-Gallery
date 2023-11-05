@@ -3,7 +3,7 @@ import {CSS} from "@dnd-kit/utilities";
 import { useState } from "react";
 import CheckBox from "../CheckBox/CheckBox";
 
-export function SortableItem({id, item}) {
+export function SortableItem({id, item, index, clickedIndexes}) {
     const [isOverlay, setIsOverlay] = useState(false);
     const handleMouseEnter = () => {
         setIsOverlay(true);
@@ -14,7 +14,7 @@ export function SortableItem({id, item}) {
       };
     
       // Check if the clickedIndexes array includes the current index
-    //   const isClicked = clickedIndexes.includes(index);
+      const isClicked = clickedIndexes.includes(index);
 
 
     const {
@@ -35,14 +35,13 @@ export function SortableItem({id, item}) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className="h-full" ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            {/* <p className="border h-full">{item}</p> */}
             <img src={item} alt=""/>
             
             {isOverlay
-            //  || isClicked
+             || isClicked
               ? (
         <div>
-          {/* <CheckBox index={index} clickedIndexes={clickedIndexes} /> */}
+          <CheckBox index={index} clickedIndexes={clickedIndexes} />
         </div>
       ) : null}
         </div>
