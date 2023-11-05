@@ -102,7 +102,6 @@ const ImageGallery = () => {
     );
     setDroppedImages(updatedImages);
   };
-
   //   handle delete end
 
   // enable onclick for drag drop
