@@ -15,13 +15,12 @@ const CheckBox = ({ index, clickedIndexes }) => {
       }
     }
 
-    console.log("Clicked Indexes:", clickedIndexes);
   };
 
   return (
     <div
       className={`${
-        isChecked ? "bg-[#ffffff60]" : " bg-[#00000060]"
+        isChecked ? "bg-[#ffffff60]" : " bg-[#00000060] rounded-lg"
       } absolute top-0 left-0 w-full h-full `}
     >
       <div

@@ -1,6 +1,12 @@
 import React from "react";
 import "./ImageGallery.scss";
-import { DndContext, closestCenter, PointerSensor, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
@@ -9,16 +15,9 @@ import {
 import { useState } from "react";
 import { SortableItem } from "../SortableItem/SortableItem";
 
- 
-
 const ImageGallery = () => {
-  
-
   const [droppedImages, setDroppedImages] = useState([]);
-  let clickedIndexes =[]
-  console.log(clickedIndexes);
-
- 
+  let clickedIndexes = [];
 
   //   handle add image start
   const handleAddImage = () => {
@@ -96,36 +95,39 @@ const ImageGallery = () => {
   };
   //   handle drag drop item end
 
+  //   handle delete start
+  const handleDelete = () => {
+    const updatedImages = droppedImages.filter(
+      (image, index) => !clickedIndexes.includes(index)
+    );
+    setDroppedImages(updatedImages);
+  };
 
-    //   handle delete start
-    const handleDelete = () => {
-      const updatedImages = droppedImages.filter((image, index) => !clickedIndexes.includes(index));
-      setDroppedImages(updatedImages);
-    };
-    
-    //   handle delete end
+  //   handle delete end
 
-    // enable onclick for drag drop
+  // enable onclick for drag drop
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
         distance: 8,
       },
     })
-  )
+  );
   return (
     <div className="container mx-auto rounded-lg shadow-md border m-2">
       <div className="flex items-center justify-between border-b-2 py-5 px-10">
         <div>
-          <h1 className="text-2xl font-bold"> Files Selected</h1>
+          <h1 className="text-2xl font-bold"><span>{clickedIndexes.length}</span> Files Selected</h1>
         </div>
         <div>
-          <button className="text-red-500 font-semibold" onClick={handleDelete}>Delete Files</button>
+          <button className="text-red-500 font-semibold" onClick={handleDelete}>
+            Delete Files
+          </button>
         </div>
       </div>
       <div className="p-10">
         <DndContext
-        sensors={sensors}
+          sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
         >
@@ -137,7 +139,12 @@ const ImageGallery = () => {
               <div className="gallery grid grid-cols-4 gap-1">
                 {droppedImages.map((item, index) => (
                   <div className="box" key={index}>
-                    <SortableItem id={item} item={item} index={index} clickedIndexes={clickedIndexes}/>
+                    <SortableItem
+                      id={item}
+                      item={item}
+                      index={index}
+                      clickedIndexes={clickedIndexes}
+                    />
                   </div>
                 ))}
                 {/* add image box */}
