@@ -4,6 +4,7 @@ const CheckBox = ({ index, clickedIndexes }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckBoxClick = (index) => {
+    console.log(index);
     setIsChecked(!isChecked);
     if (isChecked === true) {
       if (clickedIndexes.includes(index)) {

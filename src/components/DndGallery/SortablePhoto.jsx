@@ -6,6 +6,7 @@ import {Photo} from './Photo';
 
 export const SortablePhoto = (props) => {
   const sortable = useSortable({id: props.url});
+  console.log(props.clickedIndexes.length);
   const {
     attributes,
     listeners,

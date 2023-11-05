@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {
   DndContext,
   closestCenter,
-  MouseSensor,
-  TouchSensor,
+  PointerSensor,
   DragOverlay,
   useSensor,
   useSensors,
@@ -22,9 +21,16 @@ import { SortablePhoto } from './SortablePhoto';
 const DndGallery = () => {
   const [items, setItems] = useState([]);
   const [activeId, setActiveId] = useState(null);
-  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
 
   let clickedIndexes = [];
+  const [count, setCount] = useState(0);
 
   //   handle add image start
   const handleAddImage = () => {
@@ -134,7 +140,7 @@ const DndGallery = () => {
       <SortableContext items={items} strategy={rectSortingStrategy}>
         <Grid columns={4}>
           {items.map((url, index) => (
-            <SortablePhoto key={url} url={url} index={index} />
+            <SortablePhoto key={url} url={url} index={index} clickedIndexes={clickedIndexes}/>
           ))}
            {/* add image box */}
            <div
