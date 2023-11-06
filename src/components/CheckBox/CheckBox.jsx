@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 
-const CheckBox = ({ index, clickedIndexes }) => {
+const CheckBox = ({ index, clickedIndexes, setClickedIndexes }) => {
   const [isChecked, setIsChecked] = useState(false);
 
+
   const handleCheckBoxClick = (index) => {
-    console.log(index);
     setIsChecked(!isChecked);
-    if (isChecked === true) {
+
+    if (isChecked) {
       if (clickedIndexes.includes(index)) {
-        clickedIndexes.splice(clickedIndexes.indexOf(index), 1);
+        setClickedIndexes(clickedIndexes.filter((item) => item !== index));
       }
     } else {
       if (!clickedIndexes.includes(index)) {
-        clickedIndexes.push(index);
+        setClickedIndexes([...clickedIndexes, index]);
       }
     }
-
   };
 
   return (

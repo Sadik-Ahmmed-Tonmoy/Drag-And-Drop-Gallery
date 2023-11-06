@@ -21,6 +21,8 @@ import { SortablePhoto } from './SortablePhoto';
 const DndGallery = () => {
   const [items, setItems] = useState([]);
   const [activeId, setActiveId] = useState(null);
+  const [clickedIndexes, setClickedIndexes] = useState([]);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -29,8 +31,7 @@ const DndGallery = () => {
     })
   );
 
-  let clickedIndexes = [];
-  const [count, setCount] = useState(0);
+
 
   //   handle add image start
   const handleAddImage = () => {
@@ -140,7 +141,7 @@ const DndGallery = () => {
       <SortableContext items={items} strategy={rectSortingStrategy}>
         <Grid columns={4}>
           {items.map((url, index) => (
-            <SortablePhoto key={url} url={url} index={index} clickedIndexes={clickedIndexes}/>
+            <SortablePhoto key={url} url={url} index={index} clickedIndexes={clickedIndexes} setClickedIndexes={setClickedIndexes}/>
           ))}
            {/* add image box */}
            <div
