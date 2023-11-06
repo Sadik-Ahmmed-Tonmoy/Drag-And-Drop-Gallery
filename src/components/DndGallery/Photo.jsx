@@ -6,12 +6,10 @@ export const Photo = forwardRef(
     // console.log('props.clickedIndexes:', props.clickedIndexes);
     // console.log('index:', index);
     const [isOverlay, setIsOverlay] = useState(false);
-   
-  
-    // Check if the clickedIndexes array includes the current index
-    const isClicked = props?.selectedIndexes?.includes(index)
 
-    
+    // Check if the clickedIndexes array includes the current index
+    const isClicked = props?.selectedIndexes?.includes(index);
+
     const handleMouseEnter = () => {
       setIsOverlay(true);
     };
@@ -35,7 +33,6 @@ export const Photo = forwardRef(
       borderRadius: "8px",
       ...style,
     };
-  
 
     return (
       <div
@@ -46,11 +43,9 @@ export const Photo = forwardRef(
         {...props}
         // className={`sm:${index === 0 ? "h-[410px]": "h-[200px]"}`}
       >
-        {(isOverlay
-         || isClicked
-         ) ? (
+        {isOverlay || isClicked ? (
           <div>
-            <CheckBox {...props} index={index}/>
+            <CheckBox {...props} index={index} />
           </div>
         ) : null}
       </div>

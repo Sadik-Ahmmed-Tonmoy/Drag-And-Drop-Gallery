@@ -3,7 +3,6 @@ import React, { useState } from "react";
 const CheckBox = ({ index, clickedIndexes, setClickedIndexes }) => {
   const [isChecked, setIsChecked] = useState(false);
 
-
   const handleCheckBoxClick = (index) => {
     setIsChecked(!isChecked);
 
@@ -21,11 +20,13 @@ const CheckBox = ({ index, clickedIndexes, setClickedIndexes }) => {
   return (
     <div
       className={`${
-        isChecked ? "rounded-md transition-colors duration-400 ease-in-out transform bg-[#ffffff88]" : "  rounded-md transition-colors duration-400 ease-in-out transform hover:bg-[#00000060]"
+        isChecked
+          ? "rounded-md transition-colors duration-400 ease-in-out transform bg-[#ffffff88]"
+          : "  rounded-md transition-colors duration-400 ease-in-out transform hover:bg-[#00000060]"
       } absolute top-0 left-0 w-full h-full `}
     >
       <div
-        onClick={()=>handleCheckBoxClick(index)}
+        onClick={() => handleCheckBoxClick(index)}
         className="relative flex items-center m-5 hover:cursor-pointer"
       >
         <input

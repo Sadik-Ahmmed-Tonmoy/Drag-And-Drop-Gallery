@@ -1,11 +1,11 @@
-import React from 'react';
-import {useSortable} from '@dnd-kit/sortable';
-import {CSS} from '@dnd-kit/utilities';
+import React from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-import {Photo} from './Photo';
+import { Photo } from "./Photo";
 
 export const SortablePhoto = (props) => {
-  const sortable = useSortable({id: props.url});
+  const sortable = useSortable({ id: props.url });
   const {
     attributes,
     listeners,

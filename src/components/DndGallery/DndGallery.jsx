@@ -25,9 +25,9 @@ const DndGallery = () => {
   const selectedIndexes = useMemo(() => clickedIndexes, [clickedIndexes]);
   const [isChecked, setIsChecked] = useState(true);
 
-  useEffect(()=> {
-    setIsChecked(true)
-  },[selectedIndexes])
+  useEffect(() => {
+    setIsChecked(true);
+  }, [selectedIndexes]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -125,80 +125,90 @@ const DndGallery = () => {
   //   handle delete end
 
   return (
-    <div className="container mx-auto rounded-lg shadow-md bg-white">
-      <div className="flex items-center justify-between border-b-2 py-5 px-10">
-        <div>
-          {selectedIndexes?.length > 0 ? (
-            <span className="flex items-center gap-5">
-              <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={() => {
-                  setIsChecked(!isChecked);
-                }}
-                className={`rounded-sm h-5 w-5 hover:cursor-pointer ${
-                  isChecked
-                    ? "bg-blue-600 text-white"
-                    : "bg-white border border-[#00000040]"
-                }`}
-              />
-              <h1 className="sm:text-2xl font-bold">
-                <span>{selectedIndexes?.length}</span> Files Selected
-              </h1>{" "}
-            </span>
-          ) : (
-            <h1 className="text-2xl font-bold">Gallery</h1>
-          )}
-        </div>
-        <div>
-          <button disabled={!isChecked} className={`${isChecked ? "text-red-500 font-semibold" : "font-medium text-slate-700 cursor-not-allowed"}`} onClick={handleDelete}>
-            Delete Files
-          </button>
-        </div>
+    <div className="container mx-auto"><div className=" rounded-lg shadow-md bg-white">
+    <div className="flex items-center justify-between border-b-2 py-5 px-10">
+      <div>
+        {selectedIndexes?.length > 0 ? (
+          <span className="flex items-center gap-5">
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={() => {
+                setIsChecked(!isChecked);
+              }}
+              className={`rounded-sm h-5 w-5 hover:cursor-pointer ${
+                isChecked
+                  ? "bg-blue-600 text-white"
+                  : "bg-white border border-[#00000040]"
+              }`}
+            />
+            <h1 className="sm:text-2xl font-bold">
+              <span>{selectedIndexes?.length}</span> Files Selected
+            </h1>{" "}
+          </span>
+        ) : (
+          <h1 className="text-2xl font-bold">Gallery</h1>
+        )}
       </div>
-      <div className="sm:p-10">
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
-          onDragCancel={handleDragCancel}
+      <div>
+        <button
+          disabled={!isChecked}
+          className={`${
+            isChecked
+              ? "text-red-500 font-semibold"
+              : "font-medium text-slate-700 cursor-not-allowed"
+          }`}
+          onClick={handleDelete}
         >
-          <SortableContext items={items} strategy={rectSortingStrategy}>
-            <Grid columns={5}>
-              {items.map((url, index) => (
-                <SortablePhoto
-                  key={url}
-                  url={url}
-                  index={index}
-                  clickedIndexes={clickedIndexes}
-                  setClickedIndexes={setClickedIndexes}
-                  selectedIndexes={selectedIndexes}
-                />
-              ))}
-              {/* add image box */}
-              <div
-                className="box rounded-md border-2 border-dashed h-[200px] hover:cursor-pointer flex justify-center items-center"
-                onDragOver={(e) => handleDragOver(e)}
-                onDrop={(e) => handleDropItem(e, items.length)}
-                onClick={handleAddImage}
-              >
-                <div>
-                  <TiImage size={25} className="mx-auto mb-4" />
-                  <p className="font-medium">Add Images</p>
-                </div>
-              </div>
-            </Grid>
-          </SortableContext>
-
-          <DragOverlay adjustScale={true}>
-            {activeId ? (
-              <Photo url={activeId} index={items.indexOf(activeId)} />
-            ) : null}
-          </DragOverlay>
-        </DndContext>
+          Delete Files
+        </button>
       </div>
     </div>
+    <div className="sm:p-10">
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragCancel={handleDragCancel}
+      >
+        <SortableContext items={items} strategy={rectSortingStrategy}>
+          <Grid columns={5}>
+            {items.map((url, index) => (
+              <SortablePhoto
+                key={url}
+                url={url}
+                index={index}
+                clickedIndexes={clickedIndexes}
+                setClickedIndexes={setClickedIndexes}
+                selectedIndexes={selectedIndexes}
+              />
+            ))}
+            {/* add image box */}
+            <div
+              className="box rounded-md border-2 border-dashed h-[200px] hover:cursor-pointer flex justify-center items-center"
+              onDragOver={(e) => handleDragOver(e)}
+              onDrop={(e) => handleDropItem(e, items.length)}
+              onClick={handleAddImage}
+            >
+              <div>
+                <TiImage size={25} className="mx-auto mb-4" />
+                <p className="font-medium">Add Images</p>
+              </div>
+            </div>
+          </Grid>
+        </SortableContext>
+
+        <DragOverlay adjustScale={true}>
+          {activeId ? (
+            <Photo url={activeId} index={items.indexOf(activeId)} />
+          ) : null}
+        </DragOverlay>
+      </DndContext>
+    </div>
+  </div>
+  <p className="mt-5 flex justify-end">To enhance the results, kindly provide a different image, and avoid using the same image</p>
+  </div>
   );
 
   function handleDragStart(event) {
