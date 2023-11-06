@@ -138,7 +138,7 @@ const DndGallery = () => {
                     : "bg-white border border-[#00000040]"
                 }`}
               />
-              <h1 className="text-2xl font-bold mb-1">
+              <h1 className="text-2xl font-bold">
                 <span>{selectedIndexes?.length}</span> Files Selected
               </h1>{" "}
             </span>
@@ -147,12 +147,12 @@ const DndGallery = () => {
           )}
         </div>
         <div>
-          <button className="text-red-500 font-semibold" onClick={handleDelete}>
+          <button disabled={!isChecked} className={`${isChecked ? "text-red-500 font-semibold" : "font-medium text-slate-700 cursor-not-allowed"}`} onClick={handleDelete}>
             Delete Files
           </button>
         </div>
       </div>
-      <div className="p-10">
+      <div className="sm:p-10">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}

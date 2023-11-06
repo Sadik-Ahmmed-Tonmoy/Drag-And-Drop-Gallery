@@ -31,7 +31,6 @@ export const Photo = forwardRef(
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundColor: "grey",
-      // border: "1px solid black",
       borderWidth: "2px",
       borderRadius: "8px",
       ...style,
@@ -45,6 +44,7 @@ export const Photo = forwardRef(
         ref={ref}
         style={inlineStyles}
         {...props}
+        // className={`sm:${index === 0 ? "h-[410px]": "h-[200px]"}`}
       >
         {(isOverlay
          || isClicked

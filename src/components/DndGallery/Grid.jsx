@@ -5,10 +5,10 @@ export function Grid({children, columns}) {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: `repeat(${columns}, 1fr)`,
         gridGap: 10,
         padding: 10,
       }}
+      className='xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 '
     >
       {children}
     </div>
