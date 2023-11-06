@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -24,6 +24,10 @@ const DndGallery = () => {
   const [clickedIndexes, setClickedIndexes] = useState([]);
   const selectedIndexes = useMemo(() => clickedIndexes, [clickedIndexes]);
   const [isChecked, setIsChecked] = useState(true);
+
+  useEffect(()=> {
+    setIsChecked(true)
+  },[selectedIndexes])
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
