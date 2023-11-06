@@ -1,13 +1,11 @@
 import "./App.css";
 import DndGallery from "./components/DndGallery/DndGallery";
-import ImageGallery from "./components/ImageGallery/ImageGallery";
 
 function App() {
   return (
-    <>
-      {/* <ImageGallery /> */}
+    <div className="bg-[#edf2f7] h-screen pt-9">
       <DndGallery/>
-    </>
+    </div>
   );
 }
 

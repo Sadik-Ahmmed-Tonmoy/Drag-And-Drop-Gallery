@@ -3,14 +3,14 @@ import CheckBox from "../CheckBox/CheckBox";
 
 export const Photo = forwardRef(
   ({ url, index, faded, style, ...props }, ref) => {
-    console.log('props.clickedIndexes:', props.clickedIndexes);
-    console.log('index:', index);
+    // console.log('props.clickedIndexes:', props.clickedIndexes);
+    // console.log('index:', index);
     const [isOverlay, setIsOverlay] = useState(false);
    
   
     // Check if the clickedIndexes array includes the current index
-    // const isClicked = props.clickedIndexes.indexOf(index) !== -1;
-    // console.log(isClicked);
+    const isClicked = props?.selectedIndexes?.includes(index)
+
     
     const handleMouseEnter = () => {
       setIsOverlay(true);
@@ -31,7 +31,8 @@ export const Photo = forwardRef(
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundColor: "grey",
-      border: "1px solid black",
+      // border: "1px solid black",
+      borderWidth: "2px",
       borderRadius: "8px",
       ...style,
     };
@@ -46,7 +47,7 @@ export const Photo = forwardRef(
         {...props}
       >
         {(isOverlay
-        //  || isClicked
+         || isClicked
          ) ? (
           <div>
             <CheckBox {...props} index={index}/>

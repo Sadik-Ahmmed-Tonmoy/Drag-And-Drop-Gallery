@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useMemo, useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -6,22 +6,24 @@ import {
   DragOverlay,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   rectSortingStrategy,
-} from '@dnd-kit/sortable';
+} from "@dnd-kit/sortable";
 
-
-import { Grid } from './Grid';
-import { Photo } from './Photo';
-import { SortablePhoto } from './SortablePhoto';
+import { Grid } from "./Grid";
+import { Photo } from "./Photo";
+import { SortablePhoto } from "./SortablePhoto";
+import { TiImage } from "react-icons/ti";
 
 const DndGallery = () => {
   const [items, setItems] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [clickedIndexes, setClickedIndexes] = useState([]);
+  const selectedIndexes = useMemo(() => clickedIndexes, [clickedIndexes]);
+  const [isChecked, setIsChecked] = useState(true);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -30,8 +32,6 @@ const DndGallery = () => {
       },
     })
   );
-
-
 
   //   handle add image start
   const handleAddImage = () => {
@@ -64,6 +64,7 @@ const DndGallery = () => {
     });
 
     input.click();
+    setClickedIndexes([]);
   };
   //   handle add image end
 
@@ -115,58 +116,85 @@ const DndGallery = () => {
       (image, index) => !clickedIndexes.includes(index)
     );
     setItems(updatedImages);
+    setClickedIndexes([]);
   };
   //   handle delete end
 
   return (
-    <div className="container mx-auto rounded-lg shadow-md border m-2">
-    <div className="flex items-center justify-between border-b-2 py-5 px-10">
-      <div>
-        <h1 className="text-2xl font-bold"><span></span> Files Selected</h1>
+    <div className="container mx-auto rounded-lg shadow-md bg-white">
+      <div className="flex items-center justify-between border-b-2 py-5 px-10">
+        <div>
+          {selectedIndexes?.length > 0 ? (
+            <span className="flex items-center gap-5">
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={() => {
+                  setIsChecked(!isChecked);
+                }}
+                className={`rounded-sm h-5 w-5 hover:cursor-pointer ${
+                  isChecked
+                    ? "bg-blue-600 text-white"
+                    : "bg-white border border-[#00000040]"
+                }`}
+              />
+              <h1 className="text-2xl font-bold mb-1">
+                <span>{selectedIndexes?.length}</span> Files Selected
+              </h1>{" "}
+            </span>
+          ) : (
+            <h1 className="text-2xl font-bold">Gallery</h1>
+          )}
+        </div>
+        <div>
+          <button className="text-red-500 font-semibold" onClick={handleDelete}>
+            Delete Files
+          </button>
+        </div>
       </div>
-      <div>
-        <button className="text-red-500 font-semibold" onClick={handleDelete}>
-          Delete Files
-        </button>
-      </div>
-    </div>
-    <div className="p-10">
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragCancel={handleDragCancel}
-    >
-      <SortableContext items={items} strategy={rectSortingStrategy}>
-        <Grid columns={4}>
-          {items.map((url, index) => (
-            <SortablePhoto key={url} url={url} index={index} clickedIndexes={clickedIndexes} setClickedIndexes={setClickedIndexes}/>
-          ))}
-           {/* add image box */}
-           <div
-                  className="box   rounded-md border"
-                  onDragOver={(e) => handleDragOver(e)}
-                  onDrop={(e) => handleDropItem(e, items.length)}
-                >
-                  <div className="icon-and-functionality">
-                    <span className="icon">Icon</span>
-                    <button 
-                    onClick={handleAddImage}
-                    >Do Something</button>
-                  </div>
+      <div className="p-10">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          onDragCancel={handleDragCancel}
+        >
+          <SortableContext items={items} strategy={rectSortingStrategy}>
+            <Grid columns={5}>
+              {items.map((url, index) => (
+                <SortablePhoto
+                  key={url}
+                  url={url}
+                  index={index}
+                  clickedIndexes={clickedIndexes}
+                  setClickedIndexes={setClickedIndexes}
+                  selectedIndexes={selectedIndexes}
+                />
+              ))}
+              {/* add image box */}
+              <div
+                className="box rounded-md border-2 border-dashed h-[200px] hover:cursor-pointer flex justify-center items-center"
+                onDragOver={(e) => handleDragOver(e)}
+                onDrop={(e) => handleDropItem(e, items.length)}
+                onClick={handleAddImage}
+              >
+                <div>
+                  <TiImage size={25} className="mx-auto mb-4" />
+                  <p className="font-medium">Add Images</p>
                 </div>
-        </Grid>
-      </SortableContext>
+              </div>
+            </Grid>
+          </SortableContext>
 
-      <DragOverlay adjustScale={true}>
-        {activeId ? (
-          <Photo url={activeId} index={items.indexOf(activeId)} />
-        ) : null}
-      </DragOverlay>
-    </DndContext>
+          <DragOverlay adjustScale={true}>
+            {activeId ? (
+              <Photo url={activeId} index={items.indexOf(activeId)} />
+            ) : null}
+          </DragOverlay>
+        </DndContext>
+      </div>
     </div>
-  </div>
   );
 
   function handleDragStart(event) {
@@ -174,7 +202,7 @@ const DndGallery = () => {
   }
 
   function handleDragEnd(event) {
-    const {active, over} = event;
+    const { active, over } = event;
 
     if (active.id !== over.id) {
       setItems((items) => {

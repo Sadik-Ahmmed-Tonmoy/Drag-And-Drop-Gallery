@@ -21,12 +21,12 @@ const CheckBox = ({ index, clickedIndexes, setClickedIndexes }) => {
   return (
     <div
       className={`${
-        isChecked ? "bg-[#ffffff60]" : " bg-[#00000060] rounded-lg"
+        isChecked ? "bg-[#ffffff88]" : " bg-[#00000060] rounded-lg"
       } absolute top-0 left-0 w-full h-full `}
     >
       <div
         onClick={()=>handleCheckBoxClick(index)}
-        className="relative flex items-center m-3 hover:cursor-pointer"
+        className="relative flex items-center m-5 hover:cursor-pointer"
       >
         <input
           type="checkbox"
