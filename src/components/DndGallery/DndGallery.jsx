@@ -138,7 +138,7 @@ const DndGallery = () => {
                     : "bg-white border border-[#00000040]"
                 }`}
               />
-              <h1 className="text-2xl font-bold">
+              <h1 className="sm:text-2xl font-bold">
                 <span>{selectedIndexes?.length}</span> Files Selected
               </h1>{" "}
             </span>

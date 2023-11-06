@@ -21,7 +21,7 @@ const CheckBox = ({ index, clickedIndexes, setClickedIndexes }) => {
   return (
     <div
       className={`${
-        isChecked ? "bg-[#ffffff88]" : " bg-[#00000060] rounded-lg"
+        isChecked ? "rounded-md transition-colors duration-400 ease-in-out transform bg-[#ffffff88]" : "  rounded-md transition-colors duration-400 ease-in-out transform hover:bg-[#00000060]"
       } absolute top-0 left-0 w-full h-full `}
     >
       <div
